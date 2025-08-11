@@ -15,53 +15,63 @@ Route::get('/language/{locale}', function ($locale) {
     return redirect()->back();
 })->name('language.switch');
 
-// Public Routes with Language Support
-Route::group(['prefix' => '{locale?}', 'where' => ['locale' => 'en|ar']], function () {
+// Redirect root to default language
+Route::get('/', function () {
+    return redirect('/' . (session('locale', 'en')));
+});
+
+// English Routes
+Route::prefix('en')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('/about', [HomeController::class, 'about'])->name('about');
     Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
-
-    // Product Routes
     Route::get('/products', [ProductController::class, 'index'])->name('products.index');
     Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 });
 
-// Admin Routes (Protected) - No language prefix needed
-Route::prefix('admin')->name('admin.')->middleware(['admin'])->group(function () {
-    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
-    
-    // Product Management
-    Route::resource('products', AdminProductController::class);
-    
-    // Site Settings Management
-    Route::get('/settings', [AdminSiteSettingController::class, 'index'])->name('settings.index');
-    Route::post('/settings', [AdminSiteSettingController::class, 'update'])->name('settings.update');
-    Route::post('/settings/reset', [AdminSiteSettingController::class, 'resetToDefaults'])->name('settings.reset');
+// Arabic Routes
+Route::prefix('ar')->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/about', [HomeController::class, 'about'])->name('about');
+    Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+    Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+    Route::get('/products/{id}', [ProductController::class, 'show'])->name('products.show');
 });
 
-// Simple admin login (for demo purposes)
-Route::get('/admin/login', function () {
-    return view('admin.login');
-})->name('admin.login');
-
-Route::post('/admin/login', function () {
-    $credentials = request()->only('email', 'password');
+// Admin Routes
+Route::prefix('admin')->group(function () {
+    Route::get('/login', function () {
+        return view('admin.login');
+    })->name('admin.login');
     
-    // Hardcoded admin credentials for demo
-    if ($credentials['email'] === 'admin@example.com' && $credentials['password'] === 'password') {
-        session(['admin_logged_in' => true]);
-        return redirect()->route('admin.dashboard');
-    }
+    Route::post('/login', function () {
+        $email = request('email');
+        $password = request('password');
+        
+        if ($email === 'admin@example.com' && $password === 'password') {
+            session(['admin_logged_in' => true]);
+            return redirect()->route('admin.dashboard');
+        }
+        
+        return back()->withErrors(['email' => 'Invalid credentials']);
+    })->name('admin.login.post');
     
-    return back()->withErrors(['email' => 'Invalid credentials']);
-})->name('admin.login.post');
-
-Route::post('/admin/logout', function () {
-    session()->forget('admin_logged_in');
-    return redirect()->route('home');
-})->name('admin.logout');
-
-// Redirect root to default language
-Route::get('/', function () {
-    return redirect('/' . (session('locale', 'en')));
+    Route::middleware('admin')->group(function () {
+        Route::get('/', [AdminController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/logout', function () {
+            session()->forget('admin_logged_in');
+            return redirect()->route('admin.login');
+        })->name('admin.logout');
+        
+        // Products
+        Route::resource('products', AdminProductController::class, ['as' => 'admin']);
+        
+        // Categories
+        Route::resource('categories', AdminCategoryController::class, ['as' => 'admin']);
+        
+        // Site Settings
+        Route::get('/settings', [AdminSiteSettingController::class, 'index'])->name('admin.settings.index');
+        Route::post('/settings', [AdminSiteSettingController::class, 'update'])->name('admin.settings.update');
+        Route::post('/settings/reset', [AdminSiteSettingController::class, 'resetToDefaults'])->name('admin.settings.reset');
+    });
 });

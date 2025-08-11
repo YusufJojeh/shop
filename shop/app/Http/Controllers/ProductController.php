@@ -3,53 +3,41 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
-use Illuminate\Http\Request;
+use App\Models\Category;
 
 class ProductController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
-        $query = Product::query();
+        $query = Product::with('category');
         
-        if ($request->has('category') && $request->category !== 'all') {
-            $locale = app()->getLocale();
-            if ($locale === 'ar') {
-                $query->where('category_ar', $request->category);
-            } else {
-                $query->where('category', $request->category);
-            }
+        // Filter by category if provided
+        if (request('category')) {
+            $query->where('category_id', request('category'));
         }
         
         $products = $query->latest()->paginate(12);
-        
-        // Get categories based on current locale
-        $locale = app()->getLocale();
-        if ($locale === 'ar') {
-            $categories = Product::distinct()->pluck('category_ar')->filter();
-        } else {
-            $categories = Product::distinct()->pluck('category');
-        }
+        $categories = Category::active()->ordered()->get();
         
         return view('products.index', compact('products', 'categories'));
     }
 
     public function show($id)
     {
-        $product = Product::findOrFail($id);
+        $product = Product::with('category')->findOrFail($id);
         
-        $locale = app()->getLocale();
-        if ($locale === 'ar' && $product->category_ar) {
-            $relatedProducts = Product::where('category_ar', $product->category_ar)
-                ->where('id', '!=', $product->id)
-                ->take(4)
-                ->get();
-        } else {
-            $relatedProducts = Product::where('category', $product->category)
-                ->where('id', '!=', $product->id)
-                ->take(4)
-                ->get();
-        }
-            
+        // Get related products from the same category
+        $relatedProducts = Product::where('id', '!=', $product->id)
+            ->where(function($query) use ($product) {
+                if ($product->category_id) {
+                    $query->where('category_id', $product->category_id);
+                } else {
+                    $query->where('category', $product->category);
+                }
+            })
+            ->take(4)
+            ->get();
+        
         return view('products.show', compact('product', 'relatedProducts'));
     }
 }

@@ -17,6 +17,10 @@ return [
     'english' => 'الإنجليزية',
     'arabic' => 'العربية',
     
+    // Meta Tags
+    'meta_description' => 'اكتشف منتجات رائعة بأسعار ممتازة. جودة عالية مضمونة مع شحن سريع ودعم عملاء ممتاز.',
+    'meta_keywords' => 'متجر إلكتروني، تسوق، منتجات، جودة، شحن سريع، دعم العملاء',
+    
     // Hero Section
     'hero_title' => 'مرحباً بكم في متجرنا',
     'hero_subtitle' => 'اكتشف منتجات رائعة بأسعار مميزة',
@@ -42,6 +46,8 @@ return [
     
     // Products
     'featured_products' => 'المنتجات المميزة',
+    'special_products_title' => 'عروض خاصة',
+    'special_products_subtitle' => 'عروض لفترة محدودة على منتجات مختارة',
     'view_details' => 'عرض التفاصيل',
     'view_all_products' => 'عرض جميع المنتجات',
     'learn_more' => 'اعرف المزيد عنا',

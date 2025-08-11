@@ -17,6 +17,10 @@ return [
     'english' => 'English',
     'arabic' => 'Arabic',
     
+    // Meta Tags
+    'meta_description' => 'Discover amazing products at great prices. Premium quality guaranteed with fast shipping and excellent customer support.',
+    'meta_keywords' => 'online store, shopping, products, quality, fast shipping, customer support',
+    
     // Hero Section
     'hero_title' => 'Welcome to Our Store',
     'hero_subtitle' => 'Discover amazing products at great prices',
@@ -42,6 +46,8 @@ return [
     
     // Products
     'featured_products' => 'Featured Products',
+    'special_products_title' => 'Special Offers',
+    'special_products_subtitle' => 'Limited time offers on selected products',
     'view_details' => 'View Details',
     'view_all_products' => 'View All Products',
     'learn_more' => 'Learn More About Us',

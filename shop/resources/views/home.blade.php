@@ -141,6 +141,138 @@
 </section>
 @endif
 
+<!-- Special Products Section -->
+@if($settings['show_special_products_section']->value ?? true)
+<section class="py-16 bg-gradient-to-r from-yellow-50 to-orange-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">⭐ {{ $settings['special_products_title']->value ?? __('messages.special_products_title') }}</h2>
+            <p class="text-lg text-gray-600">{{ $settings['special_products_subtitle']->value ?? __('messages.special_products_subtitle') }}</p>
+        </div>
+        
+        @if($specialProducts->count() > 0)
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            @foreach($specialProducts as $product)
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-yellow-200">
+                <div class="relative h-48 bg-gray-200">
+                    @if($product->image_path)
+                        <img src="{{ Storage::url($product->image_path) }}" alt="{{ $product->localized_name }}" class="w-full h-full object-cover">
+                    @else
+                        <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-yellow-100 to-orange-100">
+                            <div class="text-center text-gray-400">
+                                <svg class="w-16 h-16 mx-auto mb-2" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" />
+                                </svg>
+                                <p class="text-sm">No Image</p>
+                            </div>
+                        </div>
+                    @endif
+                    <!-- Special Badge -->
+                    <div class="absolute top-3 left-3">
+                        <span class="bg-yellow-500 text-white text-xs font-bold px-2 py-1 rounded-full animate-pulse">
+                            ⭐ SPECIAL
+                        </span>
+                    </div>
+                    <!-- Price Badge -->
+                    <div class="absolute top-3 right-3">
+                        <span class="bg-green-500 text-white text-sm font-bold px-3 py-1 rounded-full">
+                            {{ $settings['currency_symbol']->value ?? '$' }}{{ number_format($product->price, 2) }}
+                        </span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded-full">{{ $product->localized_category }}</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-900 mb-2 line-clamp-1">{{ $product->localized_name }}</h3>
+                    <p class="text-gray-600 mb-4 text-sm line-clamp-2">{{ Str::limit($product->localized_description, 60) }}</p>
+                    <a href="{{ route('products.show', ['locale' => app()->getLocale(), 'id' => $product->id]) }}" class="w-full bg-gradient-to-r from-yellow-500 to-orange-500 text-white py-2 px-4 rounded-lg hover:from-yellow-600 hover:to-orange-600 transition-all duration-300 text-center block font-semibold transform hover:scale-105">
+                        {{ __('messages.view_details') }} →
+                    </a>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        @else
+        <div class="text-center py-12">
+            <div class="text-gray-400 mb-4">
+                <svg class="w-24 h-24 mx-auto" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <h3 class="text-lg font-medium text-gray-900 mb-2">No Special Products Yet</h3>
+            <p class="text-gray-500">Mark products as special in the admin panel to display them here.</p>
+        </div>
+        @endif
+    </div>
+</section>
+@endif
+
+<!-- Offers & Discounts Section -->
+@if($settings['show_offers_section']->value ?? true)
+<section class="py-16 bg-gradient-to-r from-red-50 to-pink-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">🔥 {{ $settings['offers_title']->value ?? __('messages.offers_title') }}</h2>
+            <p class="text-lg text-gray-600">{{ $settings['offers_subtitle']->value ?? __('messages.offers_subtitle') }}</p>
+        </div>
+        
+        @if($offerProducts->count() > 0)
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            @foreach($offerProducts as $product)
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border-2 border-red-200">
+                <div class="relative">
+                    @if($product->image_path)
+                        <img src="{{ asset('storage/' . $product->image_path) }}" alt="{{ $product->localized_name }}" class="w-full h-48 object-cover">
+                    @else
+                        <div class="w-full h-48 bg-gray-200 flex items-center justify-center">
+                            <svg class="w-16 h-16 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                        </div>
+                    @endif
+                    <div class="absolute top-2 right-2">
+                        <span class="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold">-{{ $product->discount_percentage }}%</span>
+                    </div>
+                    @if($product->localized_offer_title)
+                    <div class="absolute top-2 left-2">
+                        <span class="bg-orange-500 text-white px-2 py-1 rounded-full text-xs font-bold">{{ $product->localized_offer_title }}</span>
+                    </div>
+                    @endif
+                </div>
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-2">{{ $product->localized_name }}</h3>
+                    <p class="text-gray-600 text-sm mb-4">{{ Str::limit($product->localized_description, 80) }}</p>
+                    <div class="flex justify-between items-center mb-4">
+                        <div>
+                            <span class="text-2xl font-bold text-red-600">${{ number_format($product->discounted_price, 2) }}</span>
+                            @if($product->original_price)
+                            <span class="text-sm text-gray-500 line-through ml-2">${{ number_format($product->original_price, 2) }}</span>
+                            @endif
+                        </div>
+                        <span class="text-sm text-gray-500">{{ $product->localized_category }}</span>
+                    </div>
+                    @if($product->localized_offer_description)
+                    <p class="text-sm text-orange-600 mb-4">{{ $product->localized_offer_description }}</p>
+                    @endif
+                    <a href="{{ route('products.show', ['locale' => app()->getLocale(), 'id' => $product->id]) }}" 
+                       class="block w-full bg-red-500 hover:bg-red-600 text-white text-center py-2 px-4 rounded-lg font-semibold transition-colors">
+                        {{ __('messages.view_details') }}
+                    </a>
+                </div>
+            </div>
+            @endforeach
+        </div>
+        @else
+        <div class="text-center py-12">
+            <h3 class="text-lg font-medium text-gray-900 mb-2">No Active Offers</h3>
+            <p class="text-gray-500">Add offers and discounts to products in the admin panel to display them here.</p>
+        </div>
+        @endif
+    </div>
+</section>
+@endif
+
 <!-- Features Section -->
 @if($settings['show_features_section']->value ?? true)
 <section class="py-16 bg-white">

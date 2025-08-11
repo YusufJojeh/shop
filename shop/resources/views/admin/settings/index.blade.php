@@ -28,16 +28,28 @@
             <h2 class="text-2xl font-semibold text-gray-900 mb-6">Store Information</h2>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Store Name</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Store Name (English)</label>
                     <input type="text" name="setting_store_name" value="{{ $settings['general']->where('key', 'store_name')->first()->value ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Store Tagline</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Store Name (Arabic)</label>
+                    <input type="text" name="setting_store_name_ar" value="{{ $settings['general']->where('key', 'store_name_ar')->first()->value ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" dir="rtl">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Store Tagline (English)</label>
                     <input type="text" name="setting_store_tagline" value="{{ $settings['general']->where('key', 'store_tagline')->first()->value ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
-                <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Store Description</label>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Store Tagline (Arabic)</label>
+                    <input type="text" name="setting_store_tagline_ar" value="{{ $settings['general']->where('key', 'store_tagline_ar')->first()->value ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" dir="rtl">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Store Description (English)</label>
                     <textarea name="setting_store_description" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">{{ $settings['general']->where('key', 'store_description')->first()->value ?? '' }}</textarea>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Store Description (Arabic)</label>
+                    <textarea name="setting_store_description_ar" rows="3" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" dir="rtl">{{ $settings['general']->where('key', 'store_description_ar')->first()->value ?? '' }}</textarea>
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Store Email</label>
@@ -47,9 +59,13 @@
                     <label class="block text-sm font-medium text-gray-700 mb-2">Store Phone</label>
                     <input type="text" name="setting_store_phone" value="{{ $settings['general']->where('key', 'store_phone')->first()->value ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
-                <div class="md:col-span-2">
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Store Address</label>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Store Address (English)</label>
                     <input type="text" name="setting_store_address" value="{{ $settings['general']->where('key', 'store_address')->first()->value ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Store Address (Arabic)</label>
+                    <input type="text" name="setting_store_address_ar" value="{{ $settings['general']->where('key', 'store_address_ar')->first()->value ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" dir="rtl">
                 </div>
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Currency</label>
@@ -207,6 +223,33 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">YouTube URL</label>
                     <input type="url" name="setting_youtube_url" value="{{ $settings['social']->where('key', 'youtube_url')->first()->value ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+            </div>
+        </div>
+
+        <!-- Special Products Section -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <h2 class="text-2xl font-semibold text-gray-900 mb-6">Special Products Section</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Special Products Title (English)</label>
+                    <input type="text" name="setting_special_products_title" value="{{ $settings['content']->where('key', 'special_products_title')->first()->value ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Special Products Title (Arabic)</label>
+                    <input type="text" name="setting_special_products_title_ar" value="{{ $settings['content']->where('key', 'special_products_title_ar')->first()->value ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" dir="rtl">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Special Products Subtitle (English)</label>
+                    <input type="text" name="setting_special_products_subtitle" value="{{ $settings['content']->where('key', 'special_products_subtitle')->first()->value ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Special Products Subtitle (Arabic)</label>
+                    <input type="text" name="setting_special_products_subtitle_ar" value="{{ $settings['content']->where('key', 'special_products_subtitle_ar')->first()->value ?? '' }}" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" dir="rtl">
+                </div>
+                <div class="flex items-center">
+                    <input type="checkbox" name="setting_show_special_products_section" value="1" {{ ($settings['content']->where('key', 'show_special_products_section')->first()->value ?? '1') == '1' ? 'checked' : '' }} class="mr-2">
+                    <label class="text-sm font-medium text-gray-700">Show Special Products Section</label>
                 </div>
             </div>
         </div>

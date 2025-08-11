@@ -17,10 +17,20 @@ class SiteSetting extends Model
     ];
 
     /**
-     * Get a setting value by key
+     * Get a setting value by key with bilingual support
      */
     public static function getValue($key, $default = null)
     {
+        $locale = app()->getLocale();
+        $localizedKey = $key . '_' . $locale;
+        
+        // Try to get localized version first
+        $setting = static::where('key', $localizedKey)->first();
+        if ($setting) {
+            return $setting->value;
+        }
+        
+        // Fall back to base key
         $setting = static::where('key', $key)->first();
         return $setting ? $setting->value : $default;
     }

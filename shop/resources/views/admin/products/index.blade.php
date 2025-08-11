@@ -49,9 +49,21 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-indigo-100 text-indigo-800">
-                                {{ $product->category }}
-                            </span>
+                            <div class="space-y-1">
+                                <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-indigo-100 text-indigo-800">
+                                    {{ $product->category }}
+                                </span>
+                                @if($product->is_special)
+                                <div class="flex items-center">
+                                    <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                        Special Product
+                                    </span>
+                                    @if($product->special_order)
+                                    <span class="ml-1 text-xs text-gray-500">#{{ $product->special_order }}</span>
+                                    @endif
+                                </div>
+                                @endif
+                            </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                             ${{ number_format($product->price, 2) }}

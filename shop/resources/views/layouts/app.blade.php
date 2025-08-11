@@ -6,6 +6,24 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ config('app.name', 'Laravel') }} - @yield('title', __('messages.premium_products'))</title>
+    
+    <!-- Meta Description -->
+    <meta name="description" content="@yield('meta_description', __('messages.meta_description'))">
+    <meta name="keywords" content="@yield('meta_keywords', __('messages.meta_keywords'))">
+    <meta name="author" content="@yield('meta_author', config('app.name', 'Laravel'))">
+    
+    <!-- Open Graph Meta Tags -->
+    <!-- <meta property="og:title" content="@yield('og_title', config('app.name', 'Laravel'))"> -->
+    <!-- <meta property="og:description" content="@yield('og_description', __('messages.meta_description'))">
+    <meta property="og:type" content="@yield('og_type', 'website')">
+    <meta property="og:url" content="{{ request()->url() }}">
+    <meta property="og:image" content="@yield('og_image', asset('images/logo.png'))">
+     -->
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('twitter_title', config('app.name', 'Laravel'))">
+    <meta name="twitter:description" content="@yield('twitter_description', __('messages.meta_description'))">
+    <meta name="twitter:image" content="@yield('twitter_image', asset('images/logo.png'))">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -111,11 +129,21 @@
             padding-left: 1rem;
         }
         
-        /* Arabic Font */
+        [dir="rtl"] .text-left {
+            text-align: right;
+        }
+        
+        [dir="rtl"] .text-right {
+            text-align: left;
+        }
+        
+        /* Arabic font styling */
         [dir="rtl"] body {
             font-family: 'Cairo', sans-serif;
         }
     </style>
+    
+    @yield('head')
 </head>
 <body class="font-sans antialiased bg-gray-50">
     <!-- Navigation -->
